@@ -3,7 +3,7 @@ import React from "react";
 function ItemsList(props) {
   function handleClick(ev, item) {
     ev.preventDefault();
-    props.history.push(`/item-list/${item.id}`);
+    props.history.push(`/item-list/${item.id}`); // /item-list/2
   }
   
   return (

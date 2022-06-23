@@ -9,6 +9,10 @@ function Item(props) {
   const [item, setItem] = useState({});
   const { id } = props.match.params;
 
+  const handleEditButton = () => {
+    props.history.push(`/item-update/${item.id}`);
+  }
+
   useEffect(()=>{
     axios.get(`http://localhost:3333/items/${id}`)
       .then(res=>{
@@ -46,7 +50,7 @@ function Item(props) {
         path="/item-list/:id/shipping"
         render={props => <ItemShipping {...props} item={item} />}
       />
-      <button className="md-button">
+      <button onClick={handleEditButton} className="md-button">
         Edit
       </button>
       <button className="md-button">
