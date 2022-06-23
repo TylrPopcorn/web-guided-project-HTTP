@@ -6,6 +6,7 @@ import ItemDescription from './ItemDescription';
 import ItemShipping from './ItemShipping';
 
 function Item(props) {
+  console.log(props, "PROPS AT ITEM")
   const [item, setItem] = useState({});
   const { id } = props.match.params;
 
