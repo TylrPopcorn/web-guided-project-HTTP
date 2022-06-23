@@ -13,6 +13,17 @@ function Item(props) {
     props.history.push(`/item-update/${item.id}`);
   }
 
+  const handleDeleteButton = (e) => {
+    e.preventDefault()
+    axios.delete(`http://localhost:3333/items/${item.id}`)
+    .then(res => {
+      console.log(res, "response from deleting an item")
+      props.setItems(res.data)
+      props.history.push('/item-list')
+    })
+    .catch(err => console.log(err))
+  }
+
   useEffect(()=>{
     axios.get(`http://localhost:3333/items/${id}`)
       .then(res=>{
@@ -53,7 +64,7 @@ function Item(props) {
       <button onClick={handleEditButton} className="md-button">
         Edit
       </button>
-      <button className="md-button">
+      <button onClick={handleDeleteButton} className="md-button">
         Delete
       </button>
     </div>

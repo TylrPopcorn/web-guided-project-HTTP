@@ -12,11 +12,17 @@ const initialItem = {
 
 const UpdateForm = props => {
   const [item, setItem] = useState(initialItem);
+  const { id } = useParams();
+  const { push } = useHistory();
 
   useEffect(() => {
-    
+    axios
+      .get(`http://localhost:3333/items/${id}`)
+      .then(res => {
+        console.log(res)
+        setItem(res.data)
+      })
   }, [])
-  console.log(item, "item")
 
   const changeHandler = ev => {
     ev.persist();
@@ -33,6 +39,13 @@ const UpdateForm = props => {
 
   const handleSubmit = e => {
     e.preventDefault();
+    axios
+      .put(`http://localhost:3333/items/${id}`, item)
+      .then((res) => {
+        console.log(res)
+        props.setItems(res.data)
+        push(`/item-list/${id}`)
+      })
   };
 
   return (
