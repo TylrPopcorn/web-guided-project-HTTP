@@ -13,8 +13,8 @@ const initialItem = {
 const UpdateForm = props => {
   const [item, setItem] = useState(initialItem);
 
-  const changeHandler = e => {
-    e.persist();
+  const changeHandler = ev => {
+    ev.persist();
     let value = ev.target.value;
     if (ev.target.name === "price") {
       value = parseInt(value, 10);
