@@ -9,12 +9,34 @@ function Item(props) {
   const [item, setItem] = useState({});
   const { id } = props.match.params;
 
-  useEffect(()=>{
+  //add onClick handler
+  //add anxios call to delete item id
+  //reflect new change in client - update state
+
+  const handleDeleteButton = (e) => {
+    e.preventDefault()
+
+    axios.delete("http://localhost:3333/items/${item.id}")
+      .then(res => {
+        //console.log(res)
+        props.setItems(res.data);
+        props.history.push(`/item-list`)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
+  useEffect(() => {
     axios.get(`http://localhost:3333/items/${id}`)
-      .then(res=>{
+      .then(res => {
         setItem(res.data);
       });
   }, []);
+
+  const handleEdit = () => {
+    props.history.push(`/items-update/:${item.id}`)
+  }
 
   if (!item) {
     return <h2>Loading item data...</h2>;
@@ -46,10 +68,10 @@ function Item(props) {
         path="/item-list/:id/shipping"
         render={props => <ItemShipping {...props} item={item} />}
       />
-      <button className="md-button">
+      <button onClick={handleEdit} className="md-button">
         Edit
       </button>
-      <button className="md-button">
+      <button onClick={handleDeleteButton} className="md-button">
         Delete
       </button>
     </div>

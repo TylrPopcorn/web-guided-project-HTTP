@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import axios from "axios";
 
@@ -12,6 +12,10 @@ const initialItem = {
 
 const UpdateForm = props => {
   const [item, setItem] = useState(initialItem);
+  //console.log("UPDATE ITEM PROPS: ", props)
+  //console.log("useParams: ", useParams())
+  const { id } = useParams();  //props.match.params
+  const { push } = useHistory(); //props.history.push
 
   const changeHandler = ev => {
     ev.persist();
@@ -28,7 +32,21 @@ const UpdateForm = props => {
 
   const handleSubmit = e => {
     e.preventDefault();
+    axios.put(`https://localhost:3333/items/${item.id}`, item)
+      .then(res => {
+        //  console.log(res)
+        props.setItems(res.data);
+        push(`/item-list/${id}`)
+      })
   };
+
+  useEffect(() => { //After the component mounts.
+    axios.get(`https://localhost:3333/items/${id}`)
+      .then(res => {
+        // console.log(res);
+        setItem(res.data);
+      })
+  }, [])
 
   return (
     <div>
